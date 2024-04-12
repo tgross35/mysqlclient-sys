@@ -2,6 +2,9 @@ use std::env;
 use std::process::Command;
 
 fn main() {
+    if cfg!(feature = "bundled") {
+        return;
+    }
     if cfg!(feature = "buildtime_bindgen") {
         autogen_bindings();
     }
