@@ -82,14 +82,16 @@ jobs:
           unzip library.zip
 
       - name: Set variables for mysql (Windows)
-        if: runner.os == 'Windows' && matrix.bundled != 'boundled'
+        if: runner.os == 'Windows' && matrix.features != 'bundled'
         shell: bash
         run: |
           echo "MYSQLCLIENT_LIB_DIR=${{github.workspace}}/mysql-8.3.0-winx64/lib/" >> $GITHUB_ENV
           echo "MYSQLCLIENT_VERSION=8.3.0" >> $GITHUB_ENV
-          echo "C:\tools\mysql\current\lib" >> $GITHUB_PATH
-          echo "C:\tools\mysql\current\bin" >> $GITHUB_PATH
-          dir "C:\tools\mysql\current\lib"
+          echo "BINDGEN_EXTRA_CLANG_ARGS=-I./include" >> $GITHUB_ENV
+          mkdir include
+          cp ./mysql-8.3.0-winx64/include include/mysql -r
+          dir ./include/mysql
+          dir ./mysql-8.3.0-winx64/lib
 
       - name: Windows setup (bundled)
         if: runner.os == 'Windows' && matrix.features == 'bundled'

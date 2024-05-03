@@ -3,6 +3,7 @@ use std::process::Command;
 
 fn main() {
     if cfg!(feature = "bundled") {
+        parse_version("8.3.0");
         return;
     }
     if cfg!(feature = "buildtime_bindgen") {
